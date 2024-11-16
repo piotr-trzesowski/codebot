@@ -9,3 +9,6 @@ python ./manage.py runserver
 python manage.py migrate
 ```
 
+https://getbootstrap.com/docs/5.3/components/
+https://prismjs.com
+
