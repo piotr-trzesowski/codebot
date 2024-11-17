@@ -7,5 +7,9 @@ def home(request):
                  'json5', 'markup-templating', 'mongodb', 'objectivec', 'perl', 'php', 'plsql', 'powerquery',
                  'powershell', 'python', 'r', 'regex', 'roboconf', 'robotframework', 'ruby', 'rust', 'sas', 'sass',
                  'scala', 'sparql', 'sql', 'swift', 'turtle', 'yaml']
+    if request.method == "POST":
+        code = request.POST['code']
+        lang = request.POST['lang']
+        return render(request, 'home.html', {'lang_list': lang_list, 'code': code, 'lang': lang})
 
     return render(request, 'home.html', {'lang_list': lang_list})

@@ -2,7 +2,31 @@
 
 {% block content %}
 
-<h1>Hello Django!!!</h1>
+{% if code %}
+<pre>
+<code class='line-numbers language-{{lang}}'>
+{{code}}
+
+</code>
+</pre>
+
+<br/><br/>
+
+<form method=POST action="{% url 'home' %}">
+    {% csrf_token %}
+<div class="mb-3">
+  <textarea class="form-control" name="code" placeholder="Have A.I. Fix My Code" rows="3"></textarea>
+</div>
+<select class="form-select" name="lang">
+  <option selected>Select Programming Language</option>
+  {% for lang in lang_list %}
+  <option value="{{lang}}">{{lang}}</option>
+  {% endfor %}
+</select>
+</br></br>
+<button type="submit" class="btn btn-secondary">Submit</button>
+
+{% else %}
 
 <pre>
 <code class='line-numbers language-python'>
@@ -19,7 +43,7 @@ else:
 <div class="mb-3">
   <textarea class="form-control" name="code" placeholder="Have A.I. Fix My Code" rows="3"></textarea>
 </div>
-<select class="form-select" aria-label="Default select example">
+<select class="form-select" name="lang">
   <option selected>Select Programming Language</option>
   {% for lang in lang_list %}
   <option value="{{lang}}">{{lang}}</option>
@@ -29,4 +53,6 @@ else:
 <button type="submit" class="btn btn-secondary">Submit</button>
 
 </form>
+
+{% endif %}
 {% endblock %}
