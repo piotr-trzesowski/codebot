@@ -20,10 +20,10 @@ else:
   <textarea class="form-control" name="code" placeholder="Have A.I. Fix My Code" rows="3"></textarea>
 </div>
 <select class="form-select" aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
+  <option selected>Select Programming Language</option>
+  {% for lang in lang_list %}
+  <option value="{{lang}}">{{lang}}</option>
+  {% endfor %}
 </select>
 </br></br>
 <button type="submit" class="btn btn-secondary">Submit</button>
