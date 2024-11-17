@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 
 
 def home(request):
@@ -10,6 +11,12 @@ def home(request):
     if request.method == "POST":
         code = request.POST['code']
         lang = request.POST['lang']
+
+        # Check if programming language is selected
+        if lang == "Select Programming Language":
+            messages.success(request, "Programming language is not selected!!")
+            return render(request, 'home.html', {'lang_list': lang_list, 'code': code, 'lang': lang})
+
         return render(request, 'home.html', {'lang_list': lang_list, 'code': code, 'lang': lang})
 
     return render(request, 'home.html', {'lang_list': lang_list})
