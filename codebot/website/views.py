@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.contrib import messages
+import openai
+from dotenv import load_dotenv
+import os
 
 
 def home(request):
@@ -16,7 +19,27 @@ def home(request):
         if lang == "Select Programming Language":
             messages.success(request, "Programming language is not selected!!")
             return render(request, 'home.html', {'lang_list': lang_list, 'code': code, 'lang': lang})
+        else:
+            # OPENAI
+            load_dotenv()
+            openai.api_key = os.getenv("API_KEY")
+            openai.models.list()
+            # Make an OpenAI Request
+            try:
+                response = openai.completions.create(
+                    model='gpt-3.5-turbo-instruct',
+                    prompt=f"Respond only with code. Fix this {lang} code: {code} .",
+                    temperature=0,
+                    max_tokens=1000,
+                    top_p=1.0,
+                    frequency_penalty=0.0,
+                    presence_penalty=0.0,
+                )
+                return render(request, 'home.html', {'lang_list': lang_list, 'response': response, 'lang': lang})
 
-        return render(request, 'home.html', {'lang_list': lang_list, 'code': code, 'lang': lang})
+            except Exception as e:
+                return render(request, 'home.html', {'lang_list': lang_list, 'response': e, 'lang': lang})
+
+
 
     return render(request, 'home.html', {'lang_list': lang_list})
