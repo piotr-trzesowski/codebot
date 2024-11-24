@@ -3,6 +3,10 @@ from django.contrib import messages
 import openai
 from dotenv import load_dotenv
 import os
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from .form import SignUpForm
+from django.http import request
 
 
 def home(request):
@@ -81,4 +85,42 @@ def suggest(request):
                 return render(request, 'suggest.html', {'lang_list': lang_list, 'response': e, 'lang': lang})
 
     return render(request, 'suggest.html', {'lang_list': lang_list})
+
+
+def login_user(request: request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "You Have Been Logged In!")
+            return redirect("home")
+        else:
+            messages.success(request, "Error Logging In. Please try again.")
+            return redirect("home")
+    else:
+        return render(request, 'home.html, {}')
+
+
+def logout_user(request_: request):
+    logout(request_)
+    messages.success(request_, "You Have Been Logged Out.")
+    return redirect('home')
+
+
+def register_user(request_: request):
+    if request_.method == "POST":
+        form = SignUpForm(request_.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login()
+            messages.success(request_, "You Have Been Logged Out.")
+
+
+
+
 
