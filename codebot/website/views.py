@@ -42,3 +42,8 @@ def home(request):
                 return render(request, 'home.html', {'lang_list': lang_list, 'response': e, 'lang': lang})
 
     return render(request, 'home.html', {'lang_list': lang_list})
+
+
+def suggest(request):
+    return render(request, 'suggest.html', {})
+
